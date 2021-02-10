@@ -1,0 +1,10 @@
+#!/bin/bash
+echo " --- Internet status"
+echo " - settings"
+qmicli -d /dev/cdc-wdm0 --wds-get-current-settings
+echo " - connection status"
+qmicli -d /dev/cdc-wdm0 --wds-get-packet-service-status
+echo " --- Found handler, cid:"
+cat /tmp/qmihan
+echo " --- ping"
+ping -c 1 www.google.it

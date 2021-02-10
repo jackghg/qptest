@@ -1,0 +1,30 @@
+#!/bin/bash
+echo " --- Connecting ---"
+whoami
+RAWS=$(cat /sys/class/net/wwan0/qmi/raw_ip)
+if [ $RAWS != 'Y' ]; then
+ifconfig wwan0 down
+echo "wwan0 down"
+sleep 1
+echo "Y" > /sys/class/net/wwan0/qmi/raw_ip
+echo "rawing"
+sleep 0.5
+else
+echo "no need to raw"
+fi
+#ip link set dev wwan0 up
+#OR
+ifconfig wwan0 up
+echo "wwan0 up"
+sleep 1
+QCO=$(qmicli -d /dev/cdc-wdm0 -p --wds-start-network="ip-type=4,apn=your.apn" --client-no-release-cid)
+printf "%s\n" "$QCO"
+busybox udhcpc -q -f -n -i wwan0
+export MHAN=$( echo $QCO | sed 's/.*handle //' | cut -d "'" -f 2 )
+echo $MHAN > /tmp/qmihan
+export MCID=$( echo $QCO | sed 's/.*CID://' | cut -d "'" -f 2 )
+echo $MCID >> /tmp/qmihan
+echo "Handler: $MHAN"
+echo "Cid: $MCID"
+head -n 1 /tmp/qmihan
+sed -n 2p /tmp/qmihan

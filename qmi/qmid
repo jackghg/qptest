@@ -1,0 +1,11 @@
+#!/bin/bash
+echo " --- Disconnecting ---"
+#qmicli -d /dev/cdc-wdm0 -p --wds-stop-network=disable-autoconnect
+#sleep 1
+HOF=$(head -n 1 /tmp/qmihan)
+COF=$(sed -n 2p /tmp/qmihan)
+echo "Handler: $HOF"
+echo "Cid: $COF"
+qmicli --device=/dev/cdc-wdm0 --device-open-proxy --wds-stop-network=$HOF --client-cid=$COF
+sleep 1
+ifconfig wwan0 down
