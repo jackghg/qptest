@@ -1,0 +1,8 @@
+#!/bin/bash
+mkdir /etc/qmi
+cp -r ./qmi /etc
+chown root:root /etc/qmi/*
+chmod 744 /etc/qmi/*
+mkdir /usr/share/udhcpc
+cp simple.script /usr/share/udhcpc/default.script
+chmod 744 /usr/share/udhcpc/default.script
