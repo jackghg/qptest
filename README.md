@@ -1,5 +1,5 @@
-# qptest
-QPTest is a standalone app to test LTE quectel EC2x modules(and maybe some other qualcomm modem), like in the pinephone. C++ and gtk2. You can test calls, sms, gps, network status, internet.  
+# QPtest
+QPtest is a standalone app to test LTE quectel EC2x modules(and maybe some other qualcomm modem), like in the pinephone. C++ and gtk2. You can test calls, sms, gps, network status, internet.  
 ## Install
 Require alsa lib, alsaloop, qmicli, busybox udhcpc.  
 On arch:  
@@ -18,3 +18,6 @@ On Debian, ubuntu:
 - Run as root:  
 `sudo ./qptest`
 - On the first time you run qptest, click the 'First Run Setup' button and restart the modem/device.
+## Warnings
+- Qptest could conflict with others modem managers
+- The 'First Run Setup' function can change some modem settings
