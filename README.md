@@ -21,3 +21,5 @@ On Debian, ubuntu:
 ## Warnings
 - Qptest could conflict with others modem managers
 - The 'First Run Setup' function can change some modem settings
+- Only the english sms characterset conversion is supported.
+- Using cellular telephony functions can spend money, depend on your mobile operator contract
