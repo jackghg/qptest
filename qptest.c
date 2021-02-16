@@ -57,10 +57,9 @@ pid_t pidr=-2;
 gint sc;
 string ext="x";
 // Status bar updater
-static void sstat(string sm) {
+static void sstat( string sm ) {
 const char *cs = sm.c_str();
-gtk_statusbar_push(GTK_STATUSBAR(stat), GPOINTER_TO_INT(sc), cs);
-}
+gtk_statusbar_push(GTK_STATUSBAR(stat), GPOINTER_TO_INT(sc), cs); }
 // Audio stream in
 static gpointer audioi(gpointer p) {
 usleep(700000);
@@ -528,7 +527,6 @@ return;
 // Settings to run the first time (and after a firmware update)
 static void iset() {
 cbsy=1;
-sstat("Setting...");
 write(fd, "ATE0\r", 5);
 usleep(350000);
 write(fd, "AT+QDAI=1,0,0,4,0,0,1,1\r", 24); //audio setup
@@ -536,11 +534,11 @@ usleep(350000);
 write(fd, "AT+QCFG=\"USBCFG\",0x2C7C,0x0125,1,1,1,1,1,1,1\r", 45); // audio uac setup
 usleep(350000);
 write(fd, "AT+QGPSCFG=\"galileonmeatype\",1\r", 31); //gps,enable galileo
-//usleep(350000);
+usleep(350000);
 //write(fd, "AT+QGPSCFG=\"glonassnmeatype\",1\r", 31); //gps,enable glonass
 //usleep(350000);
 //write(fd, "AT+QGPSCFG=\"beidounmeatype\",1\r", 30); //gps,enable beidou
-usleep(350000);
+//usleep(350000);
 write(fd, "AT+QGPSCFG=\"gnssconfig\",6\r", 26); //enable gps + galileo
 usleep(350000);
 write(fd, "AT+QGPSCFG=\"autogps\",0\r", 24); //disable gps autostart
