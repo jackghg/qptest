@@ -57,9 +57,10 @@ pid_t pidr=-2;
 gint sc;
 string ext="x";
 // Status bar updater
-static void sstat( string sm ) {
+static void sstat(void * sm) {
 const char *cs = sm.c_str();
-gtk_statusbar_push(GTK_STATUSBAR(stat), GPOINTER_TO_INT(sc), cs); }
+gtk_statusbar_push(GTK_STATUSBAR(stat), GPOINTER_TO_INT(sc), cs);
+}
 // Audio stream in
 static gpointer audioi(gpointer p) {
 usleep(700000);
@@ -310,9 +311,9 @@ cbsy=1;
 //get and check the number
 string sn = gtk_entry_get_text(GTK_ENTRY(ennum));
 int nl, ln;
-ln = sn.size();
-if ( ln < 2 || ln > 23 || strspn(sn.c_str(),numc) < ln ) { sstat("Invalid number !"); cbsy=0; return; }
 sn.erase(std::remove(sn.begin(), sn.end(), ' '), sn.end());
+ln = sn.size();
+if ( !ln || ln > 23 || strspn(sn.c_str(),numc) < ln ) { sstat("Invalid number !"); cbsy=0; return; }
 //get and check the text
 GtkTextIter be, bs;
 gtk_text_buffer_get_start_iter(txtbuf, &bs);
@@ -320,7 +321,7 @@ gtk_text_buffer_get_end_iter(txtbuf, &be);
 string nt = gtk_text_buffer_get_text(txtbuf, &bs, &be, true);
 nl = nt.size();
 while(nt[0] == ' ') { nt.erase(0,1); }
-while(nt[(ln-1)] == ' ') { nt.erase(--nl,1); }
+while(nt[(nl-1)] == ' ') { nt.erase(--nl,1); }
 nl = nt.size();
 if (!nl) { sstat("No text!"); cbsy=0; return; }
 int x=0;
@@ -362,9 +363,9 @@ while (tri) { // wait for response
 o = res();
 if (o.substr(0, 8) == "\r\n+CMGS:") { sstat("SMS Sent !"); break; }
 else if (o.substr(0, 12) == "\r\n+CMS ERROR") { sstat("SMS Error !"); break; }
-else { sstat("SMS: no response ! "+tri);  write(fd, esk, 1); }
+else { sstat("SMS: no response ! "+tri); }
 --tri;
-usleep(250000);
+usleep(300000);
 } } else { sstat("SMS: modem not ready !"); write(fd, esk, 1); }
 cbsy=0;
 return; }
@@ -527,6 +528,7 @@ return;
 // Settings to run the first time (and after a firmware update)
 static void iset() {
 cbsy=1;
+g_idle_add(sstat, "Setting...");
 write(fd, "ATE0\r", 5);
 usleep(350000);
 write(fd, "AT+QDAI=1,0,0,4,0,0,1,1\r", 24); //audio setup
