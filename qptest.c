@@ -462,9 +462,9 @@ o.append(" | SIM: ");
 if (s.substr(0, 12) == "\r\n+CME ERROR") { o.append("No SIM!"); }
 else if (s.substr(0, 14) == "\r\n+CPIN: READY") { o+="OK"; }
 else if (s.substr(0, 16) == "\r\n+CPIN: SIM PIN") { o+="Insert PIN !"; }
-else if (s.substr(0, 16) == "\r\n+CPIN: SIM PUK") { o+="Insert PUK !"; }
-else if (s.substr(0, 17) == "\r\n+CPIN: SIM PIN2") { o+="Re insert PIN"; }
-else if (s.substr(0, 17) == "\r\n+CPIN: SIM PUK2") { o+="Re insert PUK"; }
+else if (s.substr(0, 16) == "\r\n+CPIN: SIM PUK") { o+="Insert PUK and new PIN! Like:12345678,1234"; }
+else if (s.substr(0, 17) == "\r\n+CPIN: SIM PIN2") { o+="Re insert PIN2(?)"; } //untested
+else if (s.substr(0, 17) == "\r\n+CPIN: SIM PUK2") { o+="Insert PUK2 and new PIN2(?)"; } //untested
 else { o+=" Error: "; o.append(s, 2, ln-3);   }
 } else { o = "Serial Error !"; }
 sstat(o);
